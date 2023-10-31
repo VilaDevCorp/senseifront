@@ -41,7 +41,7 @@ export function VilaLayout({ title, children, isPublic, fillScreen }: { title?: 
                 }
             </div>
             :
-            <div className={`min-h-full flex  flex-col items-center bg-center md:min-h-full h-screen backdrop-blur-sm w-full px-4 py-4 bg-[url("/front-vertical-min.jpg")] 
+            <div className={`min-h-full flex  flex-col items-center md:min-h-full h-screen backdrop-blur-sm w-full px-4 py-4 bg-[url("/front-vertical-min.jpg")] 
             md:bg-[url("/front-image-min.jpg")] bg-cover '} `}>
                 <main className={`flex backdrop-brightness-[20%] backdrop-blur-sm p-8 rounded-lg h-full md:h-auto justify-center items-center py flex-col gap-6 m-auto`}>
                     <img src={logo} className='w-[120px] h-[120px]' alt='Logo login' />
