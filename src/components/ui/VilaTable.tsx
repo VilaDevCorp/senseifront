@@ -121,7 +121,7 @@ export function VilaTable(props: Props) {
   ) => {
     console.log("open context menu");
     if (props.contextOptions) {
-      e.preventDefault();
+      if (e.cancelable) e.preventDefault();
       if (!selectedElements.has(index)) {
         setSelectedElements(
           new Map<number, unknown>([[index, props.data[index].realEntity]])
@@ -138,6 +138,7 @@ export function VilaTable(props: Props) {
         xPosition = e.clientX;
       }
       if (e instanceof TouchEvent) {
+        console.log(e.touches[0], e.touches[1]);
         yPosition = e.touches[0].clientY;
         xPosition = e.touches[0].clientX;
       }
@@ -254,7 +255,7 @@ export function VilaTable(props: Props) {
                       //   onOpenContextMenu(e, index);
                     }}
                     onTouchStart={(e) => {
-                        console.log("starting touch")
+                      console.log("starting touch");
                       setTouchEvent(e);
                       setItemTouched(index);
                     }}
