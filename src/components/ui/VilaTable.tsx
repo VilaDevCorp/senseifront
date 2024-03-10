@@ -250,10 +250,11 @@ export function VilaTable(props: Props) {
                                 : " hover:bg-background-400 hover:text-lightFont-500 "
                             }`}
                     onContextMenu={(e) => {
-                      e.preventDefault();
+                      if (e.cancelable) e.preventDefault();
                       //   onOpenContextMenu(e, index);
                     }}
                     onTouchStart={(e) => {
+                        console.log("starting touch")
                       setTouchEvent(e);
                       setItemTouched(index);
                     }}
