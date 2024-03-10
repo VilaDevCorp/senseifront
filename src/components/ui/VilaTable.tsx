@@ -81,6 +81,7 @@ export function VilaTable(props: Props) {
   }, [touchEvent]);
 
   useEffect(() => {
+    console.log("activatecontextmenu");
     if (activateContextMenu && touchEvent && itemTouched !== undefined) {
       onOpenContextMenu(touchEvent, itemTouched);
       setActivateContextMenu(false);
@@ -118,6 +119,7 @@ export function VilaTable(props: Props) {
       | React.TouchEvent<HTMLTableRowElement>,
     index: number
   ) => {
+    console.log("open context menu");
     if (props.contextOptions) {
       e.preventDefault();
       if (!selectedElements.has(index)) {
@@ -139,6 +141,7 @@ export function VilaTable(props: Props) {
         yPosition = e.touches[0].clientY;
         xPosition = e.touches[0].clientX;
       }
+      console.log("yPosition", yPosition, "xPosition", xPosition);
       if (tableBodyRef.current && tableHeadRef.current) {
         const tableContainerWithoutHeader = loadingContainer.current
           ? loadingContainer.current.clientHeight -
@@ -247,12 +250,18 @@ export function VilaTable(props: Props) {
                                 : " hover:bg-background-400 hover:text-lightFont-500 "
                             }`}
                     onContextMenu={(e) => {
-                        e.preventDefault()
-                    //   onOpenContextMenu(e, index);
+                      e.preventDefault();
+                      //   onOpenContextMenu(e, index);
                     }}
                     onTouchStart={(e) => {
                       setTouchEvent(e);
                       setItemTouched(index);
+                    }}
+                    onTouchEnd={() => {
+                      if (isIos) {
+                        clearTimeout(timerId);
+                        setTouchEvent(undefined);
+                      }
                     }}
                     onClick={() => onSelect(index)}
                   >
