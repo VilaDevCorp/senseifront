@@ -65,7 +65,7 @@ export function VilaTable(props: Props) {
     "iPad Simulator",
   ];
 
-  const isIos = iosDevices.includes(navigator.userAgent);
+  const isIos = true || iosDevices.includes(navigator.userAgent);
 
   useEffect(() => {
     if (touchEvent !== undefined) {
@@ -247,7 +247,8 @@ export function VilaTable(props: Props) {
                                 : " hover:bg-background-400 hover:text-lightFont-500 "
                             }`}
                     onContextMenu={(e) => {
-                      onOpenContextMenu(e, index);
+                        e.preventDefault()
+                    //   onOpenContextMenu(e, index);
                     }}
                     onTouchStart={(e) => {
                       setTouchEvent(e);
