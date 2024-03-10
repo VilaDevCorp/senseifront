@@ -83,7 +83,7 @@ export function VilaTable(props: Props) {
   useEffect(() => {
     console.log("activatecontextmenu");
     if (activateContextMenu && touchEvent && itemTouched !== undefined) {
-      onOpenContextMenu(touchEvent, itemTouched);
+      onTouchContextMenu(touchEvent, itemTouched);
       setActivateContextMenu(false);
       setTouchEvent(undefined);
       setItemTouched(undefined);
@@ -114,9 +114,7 @@ export function VilaTable(props: Props) {
   };
 
   const onOpenContextMenu = (
-    e:
-      | React.MouseEvent<HTMLTableRowElement, MouseEvent>
-      | React.TouchEvent<HTMLTableRowElement>,
+    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     index: number
   ) => {
     console.log("open context menu");
@@ -131,18 +129,59 @@ export function VilaTable(props: Props) {
       let leftPosition = 0;
       let invertedX = false;
       let invertedY = false;
-      let yPosition = 0;
-      let xPosition = 0;
-      if (e instanceof MouseEvent) {
-        yPosition = e.clientY;
-        xPosition = e.clientX;
-      }
-      if (e instanceof TouchEvent) {
-        console.log(e.touches[0], e.touches[1]);
-        yPosition = e.touches[0].clientY;
-        xPosition = e.touches[0].clientX;
-      }
+      let yPosition = e.clientY;
+      let xPosition = e.clientX;
       console.log("yPosition", yPosition, "xPosition", xPosition);
+      if (tableBodyRef.current && tableHeadRef.current) {
+        const tableContainerWithoutHeader = loadingContainer.current
+          ? loadingContainer.current.clientHeight -
+            tableHeadRef.current.clientHeight
+          : 0;
+        const topPositionRelativeToContainer =
+          yPosition - tableBodyRef.current.getBoundingClientRect().top;
+        topPosition =
+          topPositionRelativeToContainer + tableHeadRef.current.clientHeight;
+        leftPosition =
+          xPosition - tableBodyRef.current.getBoundingClientRect().left;
+        invertedX =
+          leftPosition > tableBodyRef.current.getBoundingClientRect().width / 2;
+        invertedY =
+          topPositionRelativeToContainer -
+            (loadingContainer.current
+              ? loadingContainer.current.scrollTop
+              : 0) >
+          tableContainerWithoutHeader / 2;
+      }
+      setContextMenuProps({
+        top: topPosition,
+        left: leftPosition,
+        visible: true,
+        nOptions: props.contextOptions.length,
+        invertedX,
+        invertedY,
+      });
+    }
+  };
+
+  const onTouchContextMenu = (
+    e: React.TouchEvent<HTMLTableRowElement>,
+    index: number
+  ) => {
+    console.log("open context menu");
+    if (props.contextOptions) {
+      if (e.cancelable) e.preventDefault();
+      if (!selectedElements.has(index)) {
+        setSelectedElements(
+          new Map<number, unknown>([[index, props.data[index].realEntity]])
+        );
+      }
+      let topPosition = 0;
+      let leftPosition = 0;
+      let invertedX = false;
+      let invertedY = false;
+      let yPosition = e.touches[0].clientY;
+      let xPosition = e.touches[0].clientX;
+
       if (tableBodyRef.current && tableHeadRef.current) {
         const tableContainerWithoutHeader = loadingContainer.current
           ? loadingContainer.current.clientHeight -
