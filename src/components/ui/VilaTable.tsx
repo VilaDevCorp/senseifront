@@ -291,7 +291,7 @@ export function VilaTable(props: Props) {
                             }`}
                     onContextMenu={(e) => {
                       if (e.cancelable) e.preventDefault();
-                      //   onOpenContextMenu(e, index);
+                      onOpenContextMenu(e, index);
                     }}
                     onTouchStart={(e) => {
                       console.log("starting touch");
