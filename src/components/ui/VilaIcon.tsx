@@ -2,11 +2,11 @@ import { AiOutlineDelete, AiOutlineDown, AiOutlineEdit, AiOutlineFile, AiOutline
 import { BsCheck, BsMap } from 'react-icons/bs';
 import { CgCloseR } from 'react-icons/cg';
 import { FiMail } from 'react-icons/fi';
-import { FaRedo, FaRegListAlt, FaSignInAlt, FaUserCircle, FaRegStickyNote} from 'react-icons/fa';
+import { FaRedo, FaRegListAlt, FaSignInAlt, FaUserCircle, FaRegStickyNote } from 'react-icons/fa';
 import { MdOutlineCancel } from 'react-icons/md';
 import { RiCoinLine, RiLogoutCircleRLine } from 'react-icons/ri';
 import { IoMdAddCircleOutline, IoMdArrowRoundBack, IoMdArrowRoundForward, IoMdPeople, IoMdPhonePortrait, IoIosMenu, IoMdClose, IoIosAdd, IoIosCalendar, IoIosPlay, IoMdHelp } from 'react-icons/io';
-import { BiDownload, BiUpload } from 'react-icons/bi';
+import { BiDownload, BiUpload, BiShow, BiHide } from 'react-icons/bi';
 import { TbFileAlert } from 'react-icons/tb';
 import { ImWarning } from 'react-icons/im';
 import { GrInProgress } from 'react-icons/gr';
@@ -16,7 +16,7 @@ import { GiTwoCoins } from 'react-icons/gi';
 export type IconType = "previous" | "next" | "logout" | "cancel" | "confirm" | "close" | "user" | "login" |
     "delete" | "edit" | "add" | "check" | "search" | "mail" | "phone" | "download" | "upload" | "alert" |
     "map" | "pdf" | "meeting" | "log" | "file" | "incidence" | "progress" | "important" | "redo" | "menu" |
-    "unfold" | "fold" | "coin" | "calendar" | "play" | "developer" | "notes" | "help"
+    "unfold" | "fold" | "coin" | "calendar" | "play" | "developer" | "notes" | "help" | "show" | "hide"
 
 const getIcon = (type: IconType): JSX.Element => {
     switch (type) {
@@ -100,7 +100,11 @@ const getIcon = (type: IconType): JSX.Element => {
         case "notes":
             return <FaRegStickyNote />
         case "help":
-            return <IoMdHelp/>
+            return <IoMdHelp />
+        case "show":
+            return <BiShow />
+        case "hide":
+            return <BiHide />
         default:
             return <></>
     }
