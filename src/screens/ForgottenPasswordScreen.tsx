@@ -27,9 +27,9 @@ export function ForgottenPasswordScreen() {
     const [repeatPassword, setRepeatPassword] = useState<string>('')
     const { isLoading, setIsLoading } = useMisc()
     const snackbar = useSnackbar()
-    const [mailDirty, mailError, mailMessage, mailValidate] = useValidator(mail, [notEmptyValidator]);
-    const [codeDirty, codeError, codeMessage, codeValidate] = useValidator(code, [notEmptyValidator]);
-    const [passwordDirty, passwordError, passwordMessage, passwordValidate] = useValidator(password, [notEmptyValidator, minLength8Validator, upperLowerCaseValidator]);
+    const [mailDirty, mailError, mailMessage, mailValidate, setMailDirty] = useValidator(mail, [notEmptyValidator]);
+    const [codeDirty, codeError, codeMessage, codeValidate, setCodeDirty] = useValidator(code, [notEmptyValidator]);
+    const [passwordDirty, passwordError, passwordMessage, passwordValidate, setPasswordDirty] = useValidator(password, [notEmptyValidator, minLength8Validator, upperLowerCaseValidator]);
     const [passwordMatchError, setPasswordMatchError] = useState<string>('')
 
     const disabledButton = step === 1 ? isLoading || mailError : isLoading || mailError || passwordError || passwordMatchError !== '' || codeError
@@ -103,7 +103,7 @@ export function ForgottenPasswordScreen() {
                     <>
                         <img src={logo} className='w-[120px] h-[120px]' alt='Logo login' />
                         <p className='text-lightFont-600 w-fit mb-2' >{"Write your email and we will send you a code for resetting your password in the next screen."}</p>
-                        <VilaForm onSubmit={() => onSendCode()} fields={[{ input: < VilaTextInput value={mail} setValue={setMail} errorMsg={mailDirty ? mailMessage : ''} />, label: 'Email' }]} nColumns={1} />
+                        <VilaForm onSubmit={() => onSendCode()} fields={[{ input: < VilaTextInput value={mail} setValue={setMail} errorMsg={mailDirty ? mailMessage : ''} setDirty={setMailDirty} />, label: 'Email' }]} nColumns={1} />
                         <VilaButton disabled={disabledButton} className='!w-full !justify-center mt-6 mb-4' onClick={() => onSendCode()} font='lightFont' >{'Send code'}</VilaButton>
                     </>
                     :
@@ -111,8 +111,8 @@ export function ForgottenPasswordScreen() {
                         <img src={logo} className='w-[120px] h-[120px]' alt='Logo login' />
                         <p className='text-lightFont-600 w-fit mb-2' >{"Write your code and the new password for your account."}</p>
                         <VilaForm onSubmit={() => onValidate()} fields={[{ input: <VilaTextInput value={mail} setValue={() => false} disabled />, label: 'Email' },
-                        { input: <VilaTextInput value={code} setValue={setCode} errorMsg={codeDirty ? codeMessage : ''} />, label: 'Code' },
-                        { input: <VilaTextInput value={password} setValue={setPassword} type={'password'} errorMsg={passwordDirty ? passwordMessage : ''} />, label: 'Password' },
+                        { input: <VilaTextInput value={code} setValue={setCode} errorMsg={codeDirty ? codeMessage : ''} setDirty={setCodeDirty} />, label: 'Code' },
+                        { input: <VilaTextInput value={password} setValue={setPassword} type={'password'} errorMsg={passwordDirty ? passwordMessage : ''} setDirty={setPasswordDirty} />, label: 'Password' },
                         { input: <VilaTextInput value={repeatPassword} setValue={setRepeatPassword} type={'password'} errorMsg={passwordMatchError} />, label: 'Repeat password' },
                         ]} nColumns={1}></VilaForm>
                         <VilaButton disabled={disabledButton} className='!w-full !justify-center mt-6 mb-4' onClick={() => onValidate()} font='lightFont' >{'Change password'}</VilaButton>

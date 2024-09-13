@@ -29,9 +29,9 @@ export function RegisterScreen() {
     const [password, setPassword] = useState<string>('')
     const [repeatPassword, setRepeatPassword] = useState<string>('')
 
-    const [usernameDirty, usernameError, usernameMessage, usernameValidate] = useValidator(username, [notEmptyValidator])
-    const [mailDirty, mailError, mailMessage, mailValidate] = useValidator(mail, [notEmptyValidator, emailValidator]);
-    const [passwordDirty, passwordError, passwordMessage, passwordValidate] = useValidator(password, [notEmptyValidator, minLength8Validator, upperLowerCaseValidator]);
+    const [usernameDirty, usernameError, usernameMessage, usernameValidate, setUsernameDirty] = useValidator(username, [notEmptyValidator])
+    const [mailDirty, mailError, mailMessage, mailValidate, setMailDirty] = useValidator(mail, [notEmptyValidator, emailValidator]);
+    const [passwordDirty, passwordError, passwordMessage, passwordValidate, setPasswordDirty] = useValidator(password, [notEmptyValidator, minLength8Validator, upperLowerCaseValidator]);
     const [passwordMatchError, setPasswordMatchError] = useState<string>('')
 
     const disabledButton = isLoading || mailError || passwordError || passwordMatchError !== '' || usernameError
@@ -87,10 +87,10 @@ export function RegisterScreen() {
         <VilaLayout isPublic>
             <PublicFormLayout>
                 <img src={logo} className='w-[120px] h-[120px]' alt='Logo login' />
-                <VilaForm onSubmit={()=>onRegister()} fields={
-                    [{ input: <VilaTextInput value={username} setValue={setUsername} errorMsg={usernameDirty ? usernameMessage : ''} />, label: 'Username' },
-                    { input: <VilaTextInput value={mail} setValue={setMail} errorMsg={mailDirty ? mailMessage : ''} />, label: 'Email' },
-                    { input: <VilaTextInput value={password} setValue={setPassword} type='password' errorMsg={passwordDirty ? passwordMessage : ''} />, label: 'Password' },
+                <VilaForm onSubmit={() => onRegister()} fields={
+                    [{ input: <VilaTextInput value={username} setValue={setUsername} errorMsg={usernameDirty ? usernameMessage : ''} setDirty={setUsernameDirty}  />, label: 'Username' },
+                    { input: <VilaTextInput value={mail} setValue={setMail} errorMsg={mailDirty ? mailMessage : ''} setDirty={setMailDirty} />, label: 'Email' },
+                    { input: <VilaTextInput value={password} setValue={setPassword} type='password' errorMsg={passwordDirty ? passwordMessage : ''} setDirty={setPasswordDirty} />, label: 'Password' },
                     { input: <VilaTextInput value={repeatPassword} setValue={setRepeatPassword} type='password' errorMsg={passwordMatchError} />, label: 'Repeat password' }
                     ]} nColumns={1}></VilaForm>
                 <VilaButton disabled={disabledButton} onClick={onRegister} font='lightFont' >{'Sign up'}</VilaButton>

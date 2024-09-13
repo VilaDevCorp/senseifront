@@ -13,10 +13,11 @@ export type Props = {
     disabled?: boolean
     errorMsg?: string,
     noError?: boolean,
-    maxChars?: number
+    maxChars?: number,
+    setDirty?: (value: boolean) => void
 }
 
-export function VilaTextInput({ type = 'text', disabled = false, ...props }: Props) {
+export function VilaTextInput({ type = 'text', disabled = false, setDirty, ...props }: Props) {
     const [isFocused, setIsFocused] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
 
@@ -26,7 +27,7 @@ export function VilaTextInput({ type = 'text', disabled = false, ...props }: Pro
                 text-lightFont-500 ${isFocused ? ' bg-background-400 !border-primary-500 ' : ''} ${disabled ? 'brightness-50 ' : 'hover:bg-background-400 '}`} >
                 {props.icon && props.iconAlignment !== 'right' && <VilaIcon type={props.icon} />}
                 <input className="bg-transparent focus:outline-none w-full" onFocus={() => setIsFocused(true)} maxLength={props.maxChars}
-                    onBlur={() => setIsFocused(false)} onChange={(e) => props.setValue(e.target.value)} value={props.value} type={type === 'password' && showPassword ? 'text' : type} disabled={disabled} />
+                    onBlur={() => { setIsFocused(false); setDirty && setDirty(true) }} onChange={(e) => props.setValue(e.target.value)} value={props.value} type={type === 'password' && showPassword ? 'text' : type} disabled={disabled} />
                 {props.icon && props.iconAlignment === 'right' && <VilaIcon type={props.icon} />}
                 {type === 'password' && <VilaButtonIcon buttonStyle="transparent" icon={showPassword ? 'hide' : 'show'} onClick={() => setShowPassword(!showPassword)} />}
             </div>

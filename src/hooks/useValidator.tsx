@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 
 export function emailValidator(input: string): string {
     const regex =
@@ -31,14 +31,11 @@ export function upperLowerCaseValidator(input: string): string {
 export const useValidator = (
     input: string,
     validators: { (input: string): string }[]
-): [boolean, boolean, string, { (): boolean }] => {
+): [boolean, boolean, string, { (): boolean }, React.Dispatch<SetStateAction<boolean>>] => {
     const [dirty, setDirty] = useState(false);
     const [error, setError] = useState(false);
     const [message, setMessage] = useState("");
     useEffect(() => {
-        if (!dirty && input) {
-            setDirty(true);
-        }
         for (const validator of validators) {
             const e = validator(input);
             if (e) {
@@ -63,5 +60,5 @@ export const useValidator = (
         }
         return true;
     };
-    return [dirty, error, message, validate];
+    return [dirty, error, message, validate, setDirty];
 };

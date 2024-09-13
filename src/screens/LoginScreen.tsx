@@ -29,8 +29,8 @@ export function LoginScreen() {
 
     const { isLoading, setIsLoading, triggerReloadUserInfo } = useMisc()
 
-    const [mailDirty, mailError, mailMessage, mailValidate] = useValidator(mail, [notEmptyValidator]);
-    const [passwordDirty, passwordError, passwordMessage, passwordValidate] = useValidator(password, [notEmptyValidator]);
+    const [mailDirty, mailError, mailMessage, mailValidate, setMailDirty] = useValidator(mail, [notEmptyValidator]);
+    const [passwordDirty, passwordError, passwordMessage, passwordValidate, setPasswordDirty] = useValidator(password, [notEmptyValidator]);
 
 
     const disabledButton = isLoading || mailError || passwordError
@@ -68,9 +68,9 @@ export function LoginScreen() {
         <VilaLayout isPublic>
             <PublicFormLayout>
                 <img src={logo} className='w-[120px] h-[120px]' alt='Logo login' />
-                <VilaForm onSubmit={() => onLogin()} fields={[{ input: <VilaTextInput value={mail} setValue={setMail} errorMsg={mailDirty ? mailMessage : ''} />, label: 'Email' },
-                { input: <VilaTextInput value={password} setValue={setPassword} type='password' errorMsg={passwordDirty ? passwordMessage : ''} />, label: 'Password' },
-                { input: <VilaCheckbox label='Remember me' value={rememberMe} setValue={setRememberMe} />, label:''}]} nColumns={1}></VilaForm>
+                <VilaForm onSubmit={() => onLogin()} fields={[{ input: <VilaTextInput value={mail} setValue={setMail} errorMsg={mailDirty ? mailMessage : ''} setDirty={setMailDirty} />, label: 'Email' },
+                { input: <VilaTextInput value={password} setValue={setPassword} type='password' errorMsg={passwordDirty ? passwordMessage : ''} setDirty={setPasswordDirty} />, label: 'Password' },
+                { input: <VilaCheckbox label='Remember me' value={rememberMe} setValue={setRememberMe} />, label: '' }]} nColumns={1}></VilaForm>
                 <a className={linkClasses} onClick={() => navigate("/recover-password")}>{'I have forgotten my password'}</a>
                 <VilaButton className='!w-full !justify-center' disabled={disabledButton} onClick={() => onLogin()} icon={'login'} font='lightFont' >{'Login'}</VilaButton>
                 <span className='text-lightFont-700 w-full justify-center gap-4 flex' >{"You don't have an account? "}<a className={linkClasses} onClick={() => navigate("/register")}>{'Sign up'}</a></span>

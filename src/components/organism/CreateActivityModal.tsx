@@ -35,7 +35,7 @@ export function CreateActivityModal({ activityId, onClose }: { activityId?: stri
     const snackbar = useSnackbar()
     const { screenWidth } = useScreen()
 
-    const [nameDirty, nameError, nameMessage, nameValidate] = useValidator(name, [notEmptyValidator])
+    const [nameDirty, nameError, nameMessage, nameValidate, setNameDirty] = useValidator(name, [notEmptyValidator])
     const [sizeDirty, sizeError, sizeMessage, sizeValidate] = useValidator(size ? size.toString() : '', [notEmptyValidator])
 
     const disabledButton = isLoading || nameError || sizeError
@@ -96,7 +96,7 @@ export function CreateActivityModal({ activityId, onClose }: { activityId?: stri
             <VilaButton font='lightFont' buttonStyle={'filled'} onClick={() => onConfirm()} disabled={disabledButton}>{'Save'}</VilaButton>]}>
             <VilaForm onSubmit={onConfirm} nColumns={screenWidth > ScreenWidthEnum.s ? 2 : 1} fields={[
                 {
-                    label: 'Name', input: <VilaTextInput value={name} setValue={setName} maxChars={120} errorMsg={nameDirty ? nameMessage : ''} />
+                    label: 'Name', input: <VilaTextInput value={name} setValue={setName} maxChars={120} errorMsg={nameDirty ? nameMessage : ''} setDirty={setNameDirty} />
                 },
                 {
                     label: 'Size', input: <SizeSelector setSize={setSize} size={size} errorMsg={sizeDirty ? sizeMessage : ''} />

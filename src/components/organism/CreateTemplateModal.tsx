@@ -24,7 +24,7 @@ export function CreateTemplateModal({ templateId, onClose }: { templateId?: stri
     const { t } = useTranslation()
     const navigate = useNavigate()
     const { setError } = useApiError({ navigate })
-    const [nameDirty, nameError, nameMessage, nameValidate] = useValidator(name, [notEmptyValidator])
+    const [nameDirty, nameError, nameMessage, nameValidate, setNameDirty] = useValidator(name, [notEmptyValidator])
     const snackbar = useSnackbar()
 
     const disabledButton = isLoading || nameError
@@ -83,7 +83,7 @@ export function CreateTemplateModal({ templateId, onClose }: { templateId?: stri
             <VilaButton font='lightFont' buttonStyle={'filled'} onClick={() => onConfirm()} disabled={disabledButton}>{'Save'}</VilaButton>]}>
             <VilaForm onSubmit={onConfirm} nColumns={1} fields={[
                 {
-                    label: 'Name', input: <VilaTextInput value={name} setValue={setName} maxChars={120} errorMsg={nameDirty ? nameMessage : ''} />
+                    label: 'Name', input: <VilaTextInput value={name} setValue={setName} maxChars={120} errorMsg={nameDirty ? nameMessage : ''} setDirty={setNameDirty} />
                 }]} />
         </VilaModal >
     )
