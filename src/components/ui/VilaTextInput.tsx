@@ -29,7 +29,7 @@ export function VilaTextInput({ type = 'text', disabled = false, setDirty, ...pr
                 <input className="bg-transparent focus:outline-none w-full" onFocus={() => setIsFocused(true)} maxLength={props.maxChars}
                     onBlur={() => { setIsFocused(false); setDirty && setDirty(true) }} onChange={(e) => props.setValue(e.target.value)} value={props.value} type={type === 'password' && showPassword ? 'text' : type} disabled={disabled} />
                 {props.icon && props.iconAlignment === 'right' && <VilaIcon type={props.icon} />}
-                {type === 'password' && <VilaButtonIcon buttonStyle="transparent" icon={showPassword ? 'hide' : 'show'} onClick={() => setShowPassword(!showPassword)} />}
+                {type === 'password' && <VilaButtonIcon type="button" tabIndex={-1} buttonStyle="transparent" icon={showPassword ? 'hide' : 'show'} onClick={() => setShowPassword(!showPassword)} />}
             </div>
             {!props.noError && <p className="text-error h-[14px] text-sm">{props.errorMsg}</p>}
         </div>
