@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth"
+import { tutorialCompletedAtom, useAuth } from "../../hooks/useAuth"
 import { Header } from "../organism/Header"
 import logo from './../../../public/logo.svg'
 import { VilaButton } from "./VilaButton";
@@ -7,14 +7,16 @@ import { useSnackbar } from "../../hooks/useSnackbar";
 import { VilaIcon } from "./VilaIcon";
 import { Tutorial } from "../organism/Tutorial";
 import { useMisc } from "../../hooks/useMisc";
+import { useRecoilValue } from "recoil";
 
 export function VilaLayout({ title, children, isPublic, fillScreen }: { title?: string, children: JSX.Element | JSX.Element[], isPublic?: boolean, fillScreen?: boolean }) {
 
 
-    const { user, logout } = useAuth()
+    const { user } = useAuth()
     const navigate = useNavigate()
-    const snackbar = useSnackbar()
     const { visibleTutorial, setVisibleTutorial } = useMisc()
+    const tutorialCompleted = useRecoilValue(tutorialCompletedAtom)
+
 
     return (
 
@@ -32,7 +34,7 @@ export function VilaLayout({ title, children, isPublic, fillScreen }: { title?: 
                             <VilaButton font="lightFont" onClick={()=>setVisibleTutorial(true)} buttonStyle="outlined" icon="help" >{'Tutorial'}</VilaButton>
                             <div className="flex gap-2"><VilaIcon className="text-2xl" type="developer" /><span>{'Created by David Vila'}</span></div>
                         </footer>
-                        {(!user?.tutorialCompleted || visibleTutorial) && <Tutorial />}
+                        {(!tutorialCompleted || visibleTutorial) && <Tutorial />}
                     </>
                     :
                     <main className="flex max-w-[1500px] h-full overflow-auto w-full max-h-[900px] ml-auto mr-auto">

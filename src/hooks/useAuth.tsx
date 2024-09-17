@@ -4,11 +4,10 @@ import { User } from '../types/entities';
 import { useMisc } from './useMisc';
 import { ApiError, ApiResponse } from '../types/types';
 import moment from 'moment';
-import StatusCode from 'status-code-enum';
+import { atom, useRecoilState } from 'recoil';
 
 export interface AuthContext {
   user?: User,
-  weekCompletedPercentage: number,
   csrfToken?: string,
   login: (user: string, password: string) => Promise<string>,
   authenticate: (username: string, password: string, rememberMe: boolean) => void,
@@ -27,14 +26,33 @@ export const useAuth = () => {
   }
 }
 
+export const userDansAtom = atom({
+  key: 'userDans',
+  default: 0,
+});
+
+export const weekCompletedPercentageAtom = atom({
+  key: 'weekCompletedPercentage',
+  default: 100,
+});
+
+export const tutorialCompletedAtom = atom({
+  key: 'tutorialCompleted',
+  default: true,
+});
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const [user, setUser] = useState<User | undefined>(undefined)
   const [isCompletedLoad, setIsCompletedLoad] = useState<boolean>(false)
-  const [weekCompletedPercentage, setWeekCompletedPercentage] = useState<number>(0)
   const { reloadUserInfoFlag, reloadWeekPercentageFlag } = useMisc()
   const [csrfToken, setCsrfToken] = useState<string>('')
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL
+
+
+  const [userDans, setUserDans] = useRecoilState<number>(userDansAtom);
+  const [weekCompletedPercentage, setWeekCompletedPercentage] = useRecoilState<number>(weekCompletedPercentageAtom);
+  const [tutorialCompleted, setTutorialCompleted] = useRecoilState<boolean>(tutorialCompletedAtom);
 
   useEffect(() => {
     loadCsrf()
@@ -46,11 +64,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setIsCompletedLoad(true)
     }
-  }, [csrfToken, reloadUserInfoFlag])
+  }, [csrfToken])
 
   useEffect(() => {
-    reloadWeekPercentage()
-  }, [reloadWeekPercentageFlag, user])
+    reloadUserDynamicInfo()
+  }, [reloadUserInfoFlag])
 
   interface LoginResponse {
     csrf: string
@@ -166,7 +184,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const reloadUserInfo = async () => {
     setIsCompletedLoad(() => false)
-    let ownUser: User | undefined = undefined
     try {
       const ownUser = await self()
       if (ownUser !== undefined) {
@@ -176,17 +193,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       const weekCompletedPercentageResult = await getWeekCompletedPercentage(ownUser.id)
       setWeekCompletedPercentage(weekCompletedPercentageResult)
+      setUserDans(ownUser.dans)
+      setTutorialCompleted(ownUser.tutorialCompleted)
     } catch (e) {
       logout()
+    } finally {
+      setIsCompletedLoad(() => true)
     }
-    setIsCompletedLoad(() => true)
   }
 
-  const reloadWeekPercentage = async () => {
-    if (user) {
-      const weekCompletedPercentageResult = await getWeekCompletedPercentage(user.id)
-      setWeekCompletedPercentage(weekCompletedPercentageResult)
-    }
+  const reloadUserDynamicInfo = async () => {
+    const user = await self()
+    const weekCompletedPercentageResult = await getWeekCompletedPercentage(user.id)
+    setWeekCompletedPercentage(weekCompletedPercentageResult)
+    setUserDans(user.dans)
+    setTutorialCompleted(user.tutorialCompleted)
   }
 
 
@@ -201,7 +222,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value: AuthContext = {
     user,
     csrfToken,
-    weekCompletedPercentage,
     login,
     authenticate,
     logout,

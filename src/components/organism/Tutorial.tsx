@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { tutorialCompletedAtom, useAuth } from '../../hooks/useAuth';
 import { VilaButton } from '../ui/VilaButton';
 import { VilaButtonIcon } from '../ui/VilaButtonIcon';
 import logo from '/logo.svg'
@@ -10,6 +10,7 @@ import userDataTutorial from '/tutorial_userdata.jpg'
 import { VilaIcon } from '../ui/VilaIcon';
 import { useApi } from '../../hooks/useApi';
 import { useMisc } from '../../hooks/useMisc';
+import { useRecoilValue } from 'recoil';
 
 export function Tutorial() {
 
@@ -19,6 +20,7 @@ export function Tutorial() {
     const [step, setStep] = useState(0)
     const { setVisibleTutorial } = useMisc()
     const contentSection = useRef<HTMLDivElement>(null)
+    const tutorialCompleted = useRecoilValue(tutorialCompletedAtom)
 
 
     const getSectionTitle = () => {
@@ -39,7 +41,7 @@ export function Tutorial() {
     }
 
     const onCompleteTutorial = async () => {
-        if (user && !user.tutorialCompleted) {
+        if (user && !tutorialCompleted) {
             await completeTutorial(user.id)
             triggerReloadUserInfo()
         }
