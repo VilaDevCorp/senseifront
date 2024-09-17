@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const [user, setUser] = useState<User | undefined>(undefined)
   const [isCompletedLoad, setIsCompletedLoad] = useState<boolean>(false)
-  const { reloadUserInfoFlag, reloadWeekPercentageFlag } = useMisc()
+  const { reloadUserInfoFlag } = useMisc()
   const [csrfToken, setCsrfToken] = useState<string>('')
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL
 
@@ -61,8 +61,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (csrfToken) {
       reloadUserInfo()
-    } else {
-      setIsCompletedLoad(true)
     }
   }, [csrfToken])
 
@@ -150,6 +148,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       if (csrf) {
         setCsrfToken(csrf)
+      } else {
+        setIsCompletedLoad(true)
       }
     }
   }
