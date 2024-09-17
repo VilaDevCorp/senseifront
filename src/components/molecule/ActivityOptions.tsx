@@ -10,7 +10,7 @@ import { useSnackbar } from '../../hooks/useSnackbar';
 export function ActivityOptions({ selectedTasks, setSelectedTasks }: { selectedTasks: string[], setSelectedTasks: React.Dispatch<React.SetStateAction<string[]>> }) {
 
     const { deleteTasks, completeTasks } = useApi()
-    const { setIsLoading, triggerReloadTasks, triggerReloadUserInfo, triggerReloadWeekPercentageFlag } = useMisc()
+    const { setIsLoading, triggerReloadTasks, triggerReloadUserInfo } = useMisc()
     const [confirmDeleteModalVisible, setConfirmDeleteModalVisible] = useState<boolean>(false)
     const navigate = useNavigate()
     const { setError } = useApiError({ navigate })
@@ -55,7 +55,7 @@ export function ActivityOptions({ selectedTasks, setSelectedTasks }: { selectedT
             await deleteTasks(selectedTasks)
             setSelectedTasks([])
             triggerReloadTasks()
-            triggerReloadWeekPercentageFlag()
+            triggerReloadUserInfo()
             snackbar.onOpen('Tasks deleted!', 'delete', 'success')
         } catch (e) {
             setError(e as Error)

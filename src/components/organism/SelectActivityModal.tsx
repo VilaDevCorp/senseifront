@@ -24,7 +24,7 @@ export function SelectActivityModal({ date, onClose }: { date?: Date, onClose: (
     const [searchText, setSearchText] = useState<string>('')
     const [page, setPage] = useState<number>(0)
     const { t } = useTranslation()
-    const { setIsLoading, triggerReloadTasks, triggerReloadWeekPercentageFlag } = useMisc()
+    const { setIsLoading, triggerReloadTasks, triggerReloadUserInfo } = useMisc()
     const firstRender = useRef<boolean>(true)
 
     const [activityPage, setActivityPage] = useState<Page<Activity> | undefined>(undefined)
@@ -35,7 +35,6 @@ export function SelectActivityModal({ date, onClose }: { date?: Date, onClose: (
     const { setError } = useApiError({ navigate })
     const snackbar = useSnackbar()
     const [isLoadingActivities, setIsLoadingActivities] = useState<boolean>(false)
-    const { onHideDescriptionDialog } = useDescriptionDialog()
 
     const handleEnterPress = (event: KeyboardEvent) => {
         if (event.key === 'Enter') {
@@ -111,7 +110,7 @@ export function SelectActivityModal({ date, onClose }: { date?: Date, onClose: (
             }))
             triggerReloadTasks()
             snackbar.onOpen('Tasks added!', 'check', 'success')
-            triggerReloadWeekPercentageFlag()
+            triggerReloadUserInfo()
             onClose()
         } catch (e) {
             setError(e as Error)

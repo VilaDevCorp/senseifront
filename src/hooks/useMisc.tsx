@@ -12,8 +12,6 @@ export interface MiscContext {
   reloadActivitiesFlag: boolean,
   triggerReloadActivities: () => void,
   reloadTemplatesFlag: boolean,
-  reloadWeekPercentageFlag: boolean,
-  triggerReloadWeekPercentageFlag: () => void,
   triggerReloadTemplates: () => void,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   openSidebar: boolean,
@@ -66,9 +64,7 @@ export const MiscProvider = ({ children }: { children: ReactNode }) => {
   const triggerReloadTemplates = () => {
     setReloadTemplatesFlag((old) => !old)
   }
-  const triggerReloadWeekPercentageFlag = () => {
-    setReloadWeekPercentageFlag((old) => !old)
-  }
+
 
 
   const triggerClearContext = () => {
@@ -77,7 +73,7 @@ export const MiscProvider = ({ children }: { children: ReactNode }) => {
 
 
   const value: MiscContext = {
-    isLoading, setIsLoading, clearContext, triggerClearContext, reloadUserInfoFlag, triggerReloadUserInfo, reloadTasksFlag, triggerReloadTasks, reloadWeekPercentageFlag, triggerReloadWeekPercentageFlag,
+    isLoading, setIsLoading, clearContext, triggerClearContext, reloadUserInfoFlag, triggerReloadUserInfo, reloadTasksFlag, triggerReloadTasks,
     reloadActivitiesFlag, triggerReloadActivities, reloadTemplatesFlag, triggerReloadTemplates, openSidebar, setOpenSidebar, blockedSidebar, setBlockedSidebar,
     savedDate, setSavedDate, visibleTutorial, setVisibleTutorial
   }
