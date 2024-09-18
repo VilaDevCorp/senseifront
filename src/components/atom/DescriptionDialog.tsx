@@ -11,12 +11,14 @@ export function DescriptionDialog({ inModal }: { inModal?: boolean }) {
     const [invertedX, setInvertedX] = useState<boolean>(false)
     const [invertedY, setInvertedY] = useState<boolean>(false)
 
+    const [visible, setVisible] = useState(false)
+
     useEffect(() => {
         if (event) {
             const { clientX, clientY } = event
             setTop(clientY)
             setLeft(clientX)
-            if (clientX > window.innerWidth / 2) {
+            if (window.innerWidth - clientX < 300) {
                 setInvertedX(true)
             } else {
                 setInvertedX(false)
@@ -32,12 +34,13 @@ export function DescriptionDialog({ inModal }: { inModal?: boolean }) {
             setInvertedX(false)
             setInvertedY(false)
         }
+        setVisible(!!(inModal && modalText || !inModal && text))
     }, [event])
 
 
     return (
         <>
-            {(inModal && modalText || !inModal && text) &&
+            {visible &&
                 <article ref={dialogBox} style={{ maxWidth: window.screen.width / 2 - 20, top: top, left: left + (invertedX ? -20 : 20) }} className={`fixed bg-modalTransparent p-4
                 flex flex-col z-10 mt-4 w-[300px] rounded-lg backdrop-blur-sm ${invertedX && '-translate-x-full'} ${invertedY && '-translate-y-full'}`}>
                     <p className='w-full text-lightFont-200 h-full overflow-auto'>{inModal ? modalText : text}</p>
