@@ -81,7 +81,7 @@ export function HeaderUser() {
     const incrementUserDans = (value: number) => {
         if (value >= userDans) return
         setTimeout(() => {
-            setUserDansState(Math.min(value + 1, 100))
+            setUserDansState(value + 1)
             if (value < userDans) incrementUserDans(value + 1)
         }, 50);
     }
@@ -89,7 +89,7 @@ export function HeaderUser() {
     const decrementUserDans = (value: number) => {
         if (value <= userDans) return
         setTimeout(() => {
-            setUserDansState(Math.max(value - 1, 0))
+            setUserDansState(value - 1)
             if (value > userDans) decrementUserDans(value - 1)
         }, 50);
     }
