@@ -68,7 +68,7 @@ export function ActivityOptions({ selectedTasks, setSelectedTasks }: { selectedT
     }
 
     return (
-        <div className={`flex justify-center items-center rounded-lg w-[200px] gap-4`}>
+        <div className={`flex justify-center items-center rounded-lg gap-4`}>
             <VilaButtonIcon disabled={!isActivities} size={'m'} icon={'confirm'} onClick={onCompleteTasks}></VilaButtonIcon>
             <VilaButtonIcon disabled={!isActivities} size={'m'} icon={'cancel'} onClick={onUncompleteTasks}></VilaButtonIcon>
             <VilaButtonIcon disabled={!isActivities} size={'m'} icon={'delete'} onClick={onDeleteTasks}></VilaButtonIcon>

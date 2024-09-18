@@ -37,7 +37,7 @@ export function TemplateActivityOptions({ selectedTasks, setSelectedTasks }: { s
     }
 
     return (
-        <div className={`flex justify-start items-center rounded-lg w-[200px] gap-2`}>
+        <div className={`flex justify-start items-center rounded-lg gap-2`}>
             <VilaButtonIcon disabled={!isActivities} size={'m'} icon={'delete'} onClick={onDeleteTasks}></VilaButtonIcon>
             <>{confirmDeleteModalVisible && <ConfirmationModal onClick={() => onConfirmDeleteTasks()} onClose={() => setConfirmDeleteModalVisible(false)} label='Do you really want to delete these tasks?' />}</>
         </div>

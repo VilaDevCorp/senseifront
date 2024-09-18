@@ -22,7 +22,7 @@ export function DateControl({ startDate, setStartDate }: { startDate: Date | und
 
 
     return (
-        <nav className={`flex justify-between items-center rounded-lg w-[200px] gap-2`}>
+        <nav className={`flex justify-between items-center rounded-lg gap-2`}>
             <VilaButtonIcon disabled={!startDate} size={'s'} icon={'previous'} onClick={onPreviousWeek}></VilaButtonIcon>
             <div className='flex gap-2'>
                 <span>{moment(startDate).format('MMMM')}</span>
