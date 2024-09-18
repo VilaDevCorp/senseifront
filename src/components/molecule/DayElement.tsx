@@ -45,7 +45,7 @@ export function DayElement({ date, tasks, selectedTasks, setSelectedTasks, onCre
                 <div className={`flex w-full justify-center`}>{date.getDate()}</div>
             </div>
             <TaskArea tasks={tasks} selectedTasks={selectedTasks} setSelectedTasks={setSelectedTasks} />
-            <button className={`flex-col rounded-lg outline-none text-4xl transition-all hover:text-6xl 
+            <button className={`flex-col rounded-lg outline-none text-4xl transition-all hover:text-5xl 
                 flex justify-center hover:bg-background-300 hover:border-success border border-transparent items-center grow min-h-[50px] h-max z-[3] w-full text-secondary-300
                 hover:text-success`}
                 onClick={() => onCreateTask()}>

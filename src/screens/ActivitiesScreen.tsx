@@ -77,11 +77,7 @@ export function ActivitiesScreen() {
             setTotalPages(data.totalPages)
             const tableData: TableCell[] = []
             data.content.map((dataElement) => tableData.push({
-                displayFields: [dataElement.name, dataElement.description ? <span className='text-2xl'>
-                    <VilaIcon type={'notes'} onClick={(e) => { onShowDescriptionDialog(dataElement.description, false, e); e.stopPropagation() }}
-                        onMouseEnter={(e) => { onShowDescriptionDialog(dataElement.description, false, e); e.stopPropagation() }}
-                        onMouseLeave={(e) => { onHideDescriptionDialog(); e.stopPropagation() }} />
-                </span> : <></>,
+                displayFields: [dataElement.name, dataElement.description ,
                 < SizeIndicator size={dataElement.size} />, <IconIndicator icon={dataElement.icon} />], realEntity: dataElement
             }))
             if (data.content.length < 1 && page > 1) {

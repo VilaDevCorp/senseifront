@@ -10,7 +10,7 @@ const getSize = (size?: ModalSize): string => {
         case 'l':
             return 'md:!w-11/12 max-h-[1000px] max-w-[1500px]'
         case 'm-longer':
-            return 'lg:w-2/5 sm:max-h-[600px] sm:max-w-[450px]'
+            return 'lg:w-2/5 sm:h-[600px] sm:max-w-[450px]'
         case 'm-squared':
             return 'w-3/4 md:max-h-[550px] max-w-[750px]'
         case 's':
@@ -50,7 +50,7 @@ export function VilaModal(props: Props) {
 
     return (
         <div className="w-full top-0 left-0 h-full md:h-screen  backdrop-blur-sm flex z-40 max-h-screen justify-center items-center fixed backdrop-contrast-75 " onClick={() => props.onClose()}>
-            <div style={{ background: 'linear-gradient(120deg, rgba(6,15,20,1) 0%, rgba(19,43,55,1) 100%)' }} className={`relative flex rounded-lg h-full sm:h-auto flex-col px-3 py-3 bg-background-900 ${getSize(props.size)} w-full `} onClick={(e) => e.stopPropagation()}>
+            <div style={{ background: 'linear-gradient(120deg, rgba(6,15,20,1) 0%, rgba(19,43,55,1) 100%)' }} className={`relative flex rounded-lg h-full max-h-full sm:h-auto flex-col px-3 py-3 bg-background-900 ${getSize(props.size)} w-full `} onClick={(e) => e.stopPropagation()}>
                 {props.hasHeader &&
                     <div className='flex w-full font-["Montserrat"] justify-between flex-row ml-auto items-center text-lightFont-500'>
                         {props.title}

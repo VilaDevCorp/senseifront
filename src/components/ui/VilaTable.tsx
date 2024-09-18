@@ -263,7 +263,7 @@ export function VilaTable(props: Props) {
         <table className="w-full leading-10  rounded-lg">
           <thead
             ref={tableHeadRef}
-            className="w-full text-lightFont-500 text-left sticky backdrop-brightness-50 backdrop-blur-sm rounded-t-lg top-0"
+            className="w-full text-lightFont-700 text-left sticky backdrop-brightness-50 backdrop-blur-sm rounded-t-lg top-0"
           >
             <tr>
               {props.headers.map((header) => (
@@ -309,7 +309,7 @@ export function VilaTable(props: Props) {
                     {element.displayFields.map((field, index) => (
                       <td
                         key={`table_element_${element.realEntity.id}_${index}`}
-                        className={`px-4 py-3`}
+                        className={`px-4 py-3 align-baseline`}
                       >
                         {field ? field : ""}
                       </td>
